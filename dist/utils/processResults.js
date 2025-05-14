@@ -34,15 +34,18 @@ const processResults = (suite, options) => __awaiter(void 0, void 0, void 0, fun
     if (!suite) {
         return;
     }
-    const transporter = nodemailer_1.default.createTransport({
+    const transportOptions = {
         host: options.host,
         secure: options.secure,
         port: options.port,
-        auth: {
+    };
+    if (options.username && options.password) {
+        transportOptions.auth = {
             user: options.username,
             pass: options.password,
-        },
-    });
+        };
+    }
+    const transporter = nodemailer_1.default.createTransport(transportOptions);
     const totalStatus = (0, _1.getTotalStatus)(suite.suites);
     const summary = (0, _1.getSummaryDetails)(suite);
     const testMarkup = [];
